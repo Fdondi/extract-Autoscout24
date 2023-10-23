@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
 from time import sleep
 from random import uniform
@@ -11,7 +11,7 @@ def try_goto(link, browser, timeout=1):
     page = browser.new_page()
     try:
         page.goto(link)
-    except TimeoutError:
+    except PlaywrightTimeoutError:
         page.close()
         print(f'Timeout on {link}')
         # Once we hit 1000 seconds, we include an increasing chance to give up 
