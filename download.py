@@ -6,6 +6,13 @@ from random import uniform
 
 
 base_url = "https://www.autoscout24.ch"
+lang = "it"  # SELECT LANGUAGE
+lang_specific = {
+    "it": "automobili/tutte-le-marche",
+    "de": "autos/alle-marken",
+    "fr": "voitures/toutes-les-marques"
+}
+index_url = f"{base_url}/{lang}/{lang_specific[lang]}"
 
 
 def try_goto(link, browser, timeout=1):
@@ -42,7 +49,7 @@ def ensure_file(link, browser):
 
 
 def read_index(i, browser):
-    index_page = try_goto(f'{base_url}/it/automobili/tutte-le-marche?page={i}&vehtyp=10', browser)
+    index_page = try_goto(f'{index_url}?page={i}&vehtyp=10', browser)
     if index_page is None:
         print(f'ERROR could not open index page #{i}, skipping')
         return
