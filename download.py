@@ -21,12 +21,12 @@ def try_goto(link, browser, timeout=1):
         page.goto(link)
     except PlaywrightTimeoutError:
         page.close()
-        print(f'Timeout on {link}')
         # Once we hit 1000 seconds, we include an increasing chance to give up 
         if uniform(0, 1) > 1000/timeout:
             print('roll failed, giving up')
             return None
-        print(f'sleeping {timeout}s then retrying')
+        if timeout > 100:  # only warn once the delay becomes significant
+            print(f'Timeout on {link}; sleeping {timeout}s then retrying')
         sleep(timeout)
         return try_goto(link, browser, 2 * timeout)
     except Exception as ex:
